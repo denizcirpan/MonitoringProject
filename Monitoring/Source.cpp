@@ -18,6 +18,16 @@ public:
 
         return -1.0; // Hata durumu
     }
+    double GetHDDFullSpaceGB(const std::wstring& drive) {
+        ULARGE_INTEGER freeBytesAvailable, totalNumberOfBytes, totalNumberOfFreeBytes;
+
+        if (GetDiskFreeSpaceEx(drive.c_str(), &freeBytesAvailable, &totalNumberOfBytes, &totalNumberOfFreeBytes))
+        {
+            return static_cast<double>(totalNumberOfBytes.QuadPart) / (1024 * 1024 * 1024); // GB olarak döndür
+        }
+
+        return -1.0; // Hata durumu
+    }
 
     double GetCPUTemperature() {
         std::string line;
@@ -54,50 +64,72 @@ public:
         }
     
     }
-
     double GetRAMUsage() {
         MEMORYSTATUSEX statex;
         statex.dwLength = sizeof(statex);
         GlobalMemoryStatusEx(&statex);
 
+
         return static_cast<double>(statex.dwMemoryLoad); // RAM kullanýmýný döndür
     }
-};
+     int  GetRAMTotal() {
+
+       MEMORYSTATUSEX statex1;
+       statex1.dwLength = sizeof(statex1);
+       GlobalMemoryStatusEx(&statex1);
+
+         //std::cout << "RAM TOTALL " << (statex1.ullTotalPhys / (1024 * 1024 * 1024) )<< std::endl;
+        return statex1.ullTotalPhys / (1024 * 1024 * 1024); // RAM kullanýmýný döndür
+       
+    }
+     int  GetRAMEmpty() {
+
+         MEMORYSTATUSEX statex2;
+         statex2.dwLength = sizeof(statex2);
+         GlobalMemoryStatusEx(&statex2);
+
+         //std::cout << "RAM empty " << (statex2.ullAvailPhys / (1024 * 1024 * 1024) )<< std::endl;
+         return statex2.ullAvailPhys / (1024 * 1024 * 1024); // RAM kullanýmýný döndür
+         
+     }
+
+ };
+
+
 
     int main() {
         SystemInfo systemInfo;
         int count = 0;
 
+       
 
         while (true) {
 
             std::ofstream outputFile("output.txt");
 
-           
+            //cpu 
 
             int cpuUsage = systemInfo.GetCPUUsage();
+
+            //ram
             double ramUsage = systemInfo.GetRAMUsage();
+            int ramTotal = systemInfo.GetRAMTotal();
+            int ramEmpty = systemInfo.GetRAMEmpty();
+
+            //hdd
             int hddFreeSpace = systemInfo.GetHDDFreeSpaceGB(L"C:");
-
-            //double cpuTemperature = systemInfo.GetCPUTemperature();
-
-            //  Verileri görselleþtir
-            // std::cout << "CPU Kullanimi: " << cpuUsage << "%" << std::endl;
-            // std::cout << "RAM Kullanimi: " << ramUsage << "%" << std::endl;
-            // std::cout << "HDD Bos Alan (GB): " << hddFreeSpace << "GB" << std::endl;
-            //std::cout << "------------------------------- " << std::endl;
-            // std::cout << "CPU Sýcaklýðý (Celsius): " << cpuTemperature << std::endl;
-           
+            int hddFullSpace = systemInfo.GetHDDFullSpaceGB(L"C:");
 
             // Check if the file is opened successfully
             if (outputFile.is_open()) {
                 // Write the variables to the file
                 outputFile << cpuUsage << ",";
                 outputFile << ramUsage << ",";
+                outputFile << ramTotal << ",";
+                outputFile << ramEmpty << ",";
                 outputFile << hddFreeSpace << ",";
-                
-                std::cout << "count" << count << std::endl;
-                count++;
+                outputFile << hddFullSpace << ",";
+               
 
                 // Close the file
                 outputFile.close();
