@@ -1,0 +1,11 @@
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\bin\Debug\MonitoringDesign.exe.config
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\bin\Debug\MonitoringDesign.exe
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\bin\Debug\MonitoringDesign.pdb
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\obj\Debug\MonitoringDesign.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\obj\Debug\MonitoringDesign.csproj.SuggestedBindingRedirects.cache
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\obj\Debug\MonitoringDesign.Form1.resources
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\obj\Debug\MonitoringDesign.Properties.Resources.resources
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\obj\Debug\MonitoringDesign.csproj.GenerateResource.cache
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\obj\Debug\MonitoringDesign.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\obj\Debug\MonitoringDesign.exe
+C:\Users\User\source\repos\Monitoring\MonitoringDesign\obj\Debug\MonitoringDesign.pdb

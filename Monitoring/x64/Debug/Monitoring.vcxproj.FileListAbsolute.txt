@@ -1,0 +1,2 @@
+C:\Users\User\source\repos\Monitoring\Monitoring\x64\Debug\Monitoring.vcxproj.AssemblyReference.cache
+C:\Users\User\source\repos\Monitoring\Monitoring\x64\Debug\Monitoring.vcxproj.CopyComplete
