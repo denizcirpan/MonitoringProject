@@ -1,7 +1,7 @@
 ﻿  Source.cpp
-C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(88,36): warning C4244: 'return': conversion from 'DWORDLONG' to 'int', possible loss of data
-C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(99,38): warning C4244: 'return': conversion from 'DWORDLONG' to 'int', possible loss of data
-C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(119,26): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(130,30): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(131,30): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(286,36): warning C4244: 'return': conversion from 'DWORDLONG' to 'int', possible loss of data
+C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(297,38): warning C4244: 'return': conversion from 'DWORDLONG' to 'int', possible loss of data
+C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(319,26): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(330,30): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\User\source\repos\Monitoring\Monitoring\Source.cpp(331,30): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   Monitoring.vcxproj -> C:\Users\User\source\repos\Monitoring\x64\Debug\Monitoring.exe

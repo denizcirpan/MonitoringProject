@@ -40,7 +40,7 @@ namespace MonitoringDesign
                 //Atanan değerlerin textbox'lar içerisine yazılması 
 
                 textBox1.Text = cpuInstance.cpuusage;
-                //textBox2.Text = cpuInstance.cputemperature;
+                textBox2.Text = "0";
                 textBox3.Text = ramInstance.ramusage;
                 textBox4.Text = hddInstance.hddempty;
 
@@ -86,6 +86,7 @@ namespace MonitoringDesign
                 label4.Text = "HDD FREE SPACE";
 
                 textBox1.Text = cpuInstance.cpuusage;
+                textBox2.Text = "0";
                 textBox3.Text = ramInstance.ramusage;
                 textBox4.Text = hddInstance.hddempty;
 
@@ -130,8 +131,8 @@ namespace MonitoringDesign
             label4.Text = "HDD FREE SPACE";
 
             textBox1.Text = cpuInstance.cpuusage;
-            textBox2.Text = ramInstance.ramusage;
-            //textBox3.Text = cpuInstance.cputemperature;
+            textBox3.Text = ramInstance.ramusage;
+            textBox2.Text = "0";
             textBox4.Text = hddInstance.hddempty;
 
         }
@@ -163,7 +164,7 @@ namespace MonitoringDesign
             label6.Text = "CPU TEMPERATURE";
 
             textBox5.Text = cpuInstance.cpuusage;
-            //textBox6.Text = cpuInstance.cputemperature;
+            textBox6.Text = "0";
 
         }
         //ram button fonksiyon

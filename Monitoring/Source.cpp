@@ -1,3 +1,4 @@
+#define _WIN32_DCOM
 #include <iostream>
 #include <windows.h>
 #include <psapi.h>
@@ -5,6 +6,9 @@
 #include <fstream>
 #include <wbemidl.h>
 #include <comdef.h>
+
+
+#pragma comment(lib, "wbemuuid.lib")
 
 class SystemInfo {
 public:
@@ -35,18 +39,212 @@ public:
 
     //sistemin CPU'sundaki sýcaklýðýný derece cinsinden döndüren fonksiyon 
     double GetCPUTemperature() {
-        std::string line;
-        double temperature = -1.0;
+        //LINUX ÝCÝN 
+        //std::string line;
+        //double temperature = -1.0;
 
-        std::ifstream temperatureFile("/sys/class/thermal/thermal_zone0/temp"); // Linux için örnek yolu kullanýyoruz
-        if (temperatureFile.is_open()) {
-            getline(temperatureFile, line);
-            temperature = std::stod(line) / 1000.0; //Dereceye döndürür
-            temperatureFile.close();
+        //std::ifstream temperatureFile("/sys/class/thermal/thermal_zone0/temp"); // Linux için örnek yolu kullanýyoruz
+        //if (temperatureFile.is_open()) {
+        //    getline(temperatureFile, line);
+        //    temperature = std::stod(line) / 1000.0; //Dereceye döndürür
+        //    temperatureFile.close();
+        //}
+
+        //return temperature;
+
+
+
+        //WMI temperature için denendi
+        /*HRESULT hres;
+
+
+        // Initialize COM.
+        hres = CoInitializeEx(0, COINIT_MULTITHREADED);
+
+        if (FAILED(hres))
+        {
+            std::cout << "Failed to initialize COM library. " << std::endl;
+
+
+            return 1;              // Program has failed.
         }
 
-        return temperature;
+        // Initialize
+        hres = CoInitializeSecurity(
+            NULL,
+            -1,      // COM negotiates service
+            NULL,    // Authentication services
+            NULL,    // Reserved
+            RPC_C_AUTHN_LEVEL_DEFAULT,    // authentication
+            RPC_C_IMP_LEVEL_IMPERSONATE,  // Impersonation
+            NULL,             // Authentication info
+            EOAC_NONE,        // Additional capabilities
+            NULL              // Reserved
+        );
+
+
+        if (FAILED(hres))
+        {
+            std::cout << "Failed to initialize security. "
+
+                 <<std:: endl;
+
+            return 1;          // Program has failed.
+        }
+
+        // Obtain the initial locator to Windows Management
+        // on a particular host computer.
+        IWbemLocator* pLoc = 0;
+
+        hres = CoCreateInstance(
+            CLSID_WbemLocator,
+            0,
+            CLSCTX_INPROC_SERVER,
+            IID_IWbemLocator, (LPVOID*)&pLoc);
+
+        if (FAILED(hres))
+        {
+            std::cout << "Failed to create IWbemLocator object. "
+
+                 << std::endl;
+
+            return 1;       // Program has failed.
+        }
+
+        IWbemServices* pSvc = 0;
+
+        // Connect to the root\cimv2 namespace with the
+        // current user and obtain pointer pSvc
+        // to make IWbemServices calls.
+
+        hres = pLoc->ConnectServer(
+
+            _bstr_t(L"ROOT\\cimv2"), // WMI namespace
+            NULL,                    // User name
+            NULL,                    // User password
+            0,                       // Locale
+            NULL,                    // Security flags
+            0,                       // Authority
+            0,                       // Context object
+            &pSvc                    // IWbemServices proxy
+        );
+
+        if (FAILED(hres))
+        {
+            std::cout << "Could not connect. Error code = 0x"
+             << std::endl;
+
+            return 1;                // Program has failed.
+        }
+
+        std::cout << "Connected to ROOT\\CIMV2 WMI namespace" <<std:: endl;
+
+        // Set the IWbemServices proxy so that impersonation
+        // of the user (client) occurs.
+        hres = CoSetProxyBlanket(
+
+            pSvc,                         // the proxy to set
+            RPC_C_AUTHN_WINNT,            // authentication service
+            RPC_C_AUTHZ_NONE,             // authorization service
+            NULL,                         // Server principal name
+            RPC_C_AUTHN_LEVEL_CALL,       // authentication level
+            RPC_C_IMP_LEVEL_IMPERSONATE,  // impersonation level
+            NULL,                         // client identity
+            EOAC_NONE                     // proxy capabilities
+        );
+
+        if (FAILED(hres))
+        {
+          std::cout << "Could not set proxy blanket. Error code = 0x"
+            << std:: endl;
+            pSvc->Release();
+            pLoc->Release();
+            CoUninitialize();
+            return 1;               // Program has failed.
+        }
+
+
+        // Use the IWbemServices pointer to make requests of WMI.
+        // Make requests here:
+
+        // For example, query for all the running processes
+        IEnumWbemClassObject* pEnumerator = NULL;
+        hres = pSvc->ExecQuery(
+
+            bstr_t("SELECT Description FROM Win32_TemperatureProbe"),
+            bstr_t("WQL"),
+            WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+            NULL,
+            &pEnumerator);
+
+        std::cout << "hres " << hres   << std::endl;
+
+
+
+        if (FAILED(hres))
+        {
+            std::cout << "Query for processes failed. "
+
+                << std::endl;
+            pSvc->Release();
+            pLoc->Release();
+            CoUninitialize();
+            return 1;               // Program has failed.
+        }
+        else
+        {
+            IWbemClassObject* pclsObj;
+            ULONG uReturn = 0;
+
+            while (pEnumerator)
+            {
+                std::cout << " while girdim " << std::endl;
+                hres = pEnumerator->Next(WBEM_INFINITE, 1,
+                    &pclsObj, &uReturn);
+
+              /*  if (0 == uReturn)
+                {
+                    std::cout << " if ciktim " << std::endl;
+                    break;
+                }
+
+                VARIANT vtProp;
+
+                // Get the value of the Name property
+                hres = pclsObj->Get(L"CurrentTemperature", 0, &vtProp, 0, 0);
+                std::cout << L" demenmCPU Temperature: " << vtProp.intVal << L" degrees Celsius" << std::endl;
+                std::cout << " deneeehres " << hres << std::endl;
+
+                if (SUCCEEDED(hres)) {
+                    std::cout << L"CPU Temperature: " << vtProp.intVal << L" degrees Celsius" << std::endl;
+                    VariantClear(&vtProp);
+                }
+
+
+                /*hres = pclsObj->Get(L"Name", 0, &vtProp, 0, 0);
+                std::cout << "Process Name : " << vtProp.bstrVal << std::endl;
+                VariantClear(&vtProp);
+
+                pclsObj->Release();
+                pclsObj = NULL;
+            }
+
+        }
+
+        // Cleanup
+        // ========
+
+        pSvc->Release();
+        pLoc->Release();
+        pEnumerator->Release();
+
+        CoUninitialize();
+
+        return 0;  // Program successfully completed.
+    }*/
+
     }
+    
 
     //Sistemde CPU'nun yüzde kaç kullandýðýný döndüren fonksiyon
     double GetCPUUsage() {
@@ -104,11 +302,13 @@ public:
 
 
 
+
     int main() {
 
         SystemInfo systemInfo;
-        
+
         while (true) {
+
 
             //veri aktarýmý için kullanýlan txt dosyasý
             std::ofstream outputFile("output.txt");
