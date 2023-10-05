@@ -12,64 +12,57 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-//test
+
 namespace MonitoringDesign
 {
     public partial class Form1 : Form
     {
+        //verilerin okunması için verilen dosya yolu 
         string filePath = "C:\\Users\\User\\source\\repos\\Monitoring\\Monitoring\\output.txt";  
         public Form1()
         {
             InitializeComponent();
         }
+
+        //30 saniye dolunca forma verilerin tekrar yazılması için çağrılan fonksiyon
         private void TimerCallback(object state)
         {
-            
-            // This method will be called after 30 seconds
-            // Do your work here
-            // ...
-            // Read the entire file into a string
             string fileContent = File.ReadAllText(filePath);
             string[] variables = fileContent.Split(',');
           
-
-            // If you need to update UI elements from this method, use BeginInvoke
             BeginInvoke(new Action(() =>
             {
-
-                // Display the separated values
+                //Dosyadan okunan verilen class içerisinde bulunan nesnelere atanması
                 ClassCPU cpuInstance = new ClassCPU(variables[0]);
                 ClassRAM ramInstance = new ClassRAM(variables[1], variables[2], variables[3]);
                 ClassHDD hddInstance = new ClassHDD(variables[4], variables[5]);
+
+                //Atanan değerlerin textbox'lar içerisine yazılması 
 
                 textBox1.Text = cpuInstance.cpuusage;
                 //textBox2.Text = cpuInstance.cputemperature;
                 textBox3.Text = ramInstance.ramusage;
                 textBox4.Text = hddInstance.hddempty;
 
-                Console.WriteLine("Timer");
-                
-
             }));
 
-            System.Threading.Timer timer = new System.Threading.Timer(TimerCallback, null, 5000, Timeout.Infinite);
+            System.Threading.Timer timer = new System.Threading.Timer(TimerCallback, null, 30000, Timeout.Infinite);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            System.Threading.Timer timer = new System.Threading.Timer(TimerCallback, null, 5000, Timeout.Infinite);
+            System.Threading.Timer timer = new System.Threading.Timer(TimerCallback, null, 30000, Timeout.Infinite);
 
             try
             {
-                // Read the entire file into a string
+               
                 string fileContent = File.ReadAllText(filePath);
                 string[] variables = fileContent.Split(',');
 
-
-                // Display the separated values
                 ClassCPU cpuInstance = new ClassCPU(variables[0]);
                 ClassRAM ramInstance = new ClassRAM(variables[1], variables[2], variables[3]);
                 ClassHDD hddInstance = new ClassHDD(variables[4], variables[5]);
+
 
                 label1.Visible = true;
                 label2.Visible = true;
@@ -96,12 +89,6 @@ namespace MonitoringDesign
                 textBox3.Text = ramInstance.ramusage;
                 textBox4.Text = hddInstance.hddempty;
 
-
-                // Display the file content
-                //Console.WriteLine("File Content:");
-                Console.WriteLine(fileContent);
-               
-
             }
             catch (FileNotFoundException)
             {
@@ -109,13 +96,14 @@ namespace MonitoringDesign
             }
           
         }
+
+        //home button fonksiyon
         private void homebutton_Click(object sender, EventArgs e)
         {
             string fileContent = File.ReadAllText(filePath);
             string[] variables = fileContent.Split(',');
 
 
-            // Display the separated values
             ClassCPU cpuInstance = new ClassCPU(variables[0]);
             ClassRAM ramInstance = new ClassRAM(variables[1], variables[2], variables[3]);
             ClassHDD hddInstance = new ClassHDD(variables[4], variables[5]);
@@ -147,13 +135,12 @@ namespace MonitoringDesign
             textBox4.Text = hddInstance.hddempty;
 
         }
+        //cpu button fonksiyon
         private void cpubutton_Click(object sender, EventArgs e)
         {
             string fileContent = File.ReadAllText(filePath);
             string[] variables = fileContent.Split(',');
 
-
-            // Display the separated values
             ClassCPU cpuInstance = new ClassCPU(variables[0]);
 
             label1.Visible = false;
@@ -179,13 +166,13 @@ namespace MonitoringDesign
             //textBox6.Text = cpuInstance.cputemperature;
 
         }
+        //ram button fonksiyon
         private void rambutton_Click(object sender, EventArgs e)
         {
             string fileContent = File.ReadAllText(filePath);
             string[] variables = fileContent.Split(',');
 
 
-            // Display the separated values
             ClassRAM ramInstance = new ClassRAM(variables[1], variables[2], variables[3]);
 
             label1.Visible = true;
@@ -213,13 +200,13 @@ namespace MonitoringDesign
             textBox7.Text = ramInstance.ramempty;
 
         }
+
+        //disk button fonksiyonu
         private void diskbutton_Click(object sender, EventArgs e)
         {
             string fileContent = File.ReadAllText(filePath);
             string[] variables = fileContent.Split(',');
 
-
-            // Display the separated values
             ClassHDD hddInstance = new ClassHDD(variables[4], variables[5]);
 
             label1.Visible = false;
@@ -246,13 +233,16 @@ namespace MonitoringDesign
 
         }
     }
+
+    //Donanımların bilgilerinin düzenli yazılması için oluşturulan classlar
     public class ClassCPU
     {
         public string cpuusage { get; set; }
-        //public double usage { get; set; }
+        //public string cputemperature { get; set; }
         public ClassCPU(string cpuusage)
         {
             this.cpuusage = cpuusage;
+            //this.cputempereature= cputempereature;
         }
     }
     public class ClassRAM
