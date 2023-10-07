@@ -18,7 +18,7 @@ namespace MonitoringDesign
     public partial class Form1 : Form
     {
         //verilerin okunması için verilen dosya yolu 
-        string filePath = "../../../Monitoring/output.txt";  
+        string filePath = "../../x64/Debug/output.txt";
         public Form1()
         {
             InitializeComponent();
