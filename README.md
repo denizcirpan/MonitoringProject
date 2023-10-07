@@ -1,4 +1,8 @@
-# MonitoringProject
+# ONEMLİ ACIKLAMA
+1) Proje indirildiğinde proje ismi "MonitoringProject-master" olarak iniyor bu sebeple proje dosyasının adını "Monitoring" yapınız.
+2) Daha sonra runBoth.Bat'i çalıştırınız.
+   
+## MonitoringProject
 
 ### 1)Proje için gerekli olan mimarinin nasıl gerçeklendiği 
 ---------------------------------------------------------------
